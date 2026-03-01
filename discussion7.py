@@ -55,6 +55,28 @@ def calculate_avg_price_by_neighbourhood_group_and_room(listings):
         e.g. { ('Downtown', 'Entire home/apt'): 123.45, ... }
     """
 
+    # Create a dictionary to hold the total price and count for each (neighbourhood_group, room_type)
+    price_data = {}
+
+    for listing in listings:
+        neighbourhood_group = listing['neighbourhood_group']
+        room_type = listing['room_type']
+        price = float(listing['price'])  # convert price from string to float
+
+        key = (neighbourhood_group, room_type)
+
+        if key not in price_data:
+            price_data[key] = {'total_price': 0.0, 'count': 0}
+
+        price_data[key]['total_price'] += price
+        price_data[key]['count'] += 1
+
+    # calc avg price for each (neighbourhood_group, room_type)
+    avg_prices = {}
+    for key, data in price_data.items():
+        avg_prices[key] = data['total_price'] / data['count']
+
+    return avg_prices
 
 
 
