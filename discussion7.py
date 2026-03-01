@@ -30,10 +30,10 @@ def load_listings(f):
     base_path = os.path.abspath(os.path.dirname(__file__))
     full_path = os.path.join(base_path, f)
 
-    csvfile = open(full_path, 'r')
-    reader = csv.DictReader(csvfile)
-    result = list(reader)
-    csvfile.close()
+    csvfile = open(full_path, 'r') # open the file for reading
+    reader = csv.DictReader(csvfile) # create a DictReader object to read the CSV as dictionaries
+    result = list(reader) # convert the reader object to a list of dictionaries
+    csvfile.close() # close the file after reading
     return result
 
 ###############################################################################
@@ -59,14 +59,15 @@ def calculate_avg_price_by_neighbourhood_group_and_room(listings):
     price_data = {}
 
     for listing in listings:
-        neighbourhood_group = listing['neighbourhood_group']
-        room_type = listing['room_type']
+        neighbourhood_group = listing['neighbourhood_group'] # extract neighbourhood_group from the listing
+        room_type = listing['room_type'] # extract room_type from the listing
         price = float(listing['price'])  # convert price from string to float
 
-        key = (neighbourhood_group, room_type)
+        key = (neighbourhood_group, room_type) # create a tuple key for the dictionary
+
 
         if key not in price_data:
-            price_data[key] = {'total_price': 0.0, 'count': 0}
+            price_data[key] = {'total_price': 0.0, 'count': 0} # initialize total_price and count for this key if it doesn't exist
 
         price_data[key]['total_price'] += price
         price_data[key]['count'] += 1
@@ -99,10 +100,10 @@ def write_summary_csv(out_filename, avg_prices):
             Writes a CSV file with header: neighbourhood_group, room_type, average_price
     """
     
-    csvfile = open(out_filename, 'w', newline='')
-    writer = csv.writer(csvfile)
+    csvfile = open(out_filename, 'w', newline='') # open the file for writing, with newline='' to avoid extra blank lines on Windows
+    writer = csv.writer(csvfile) # create a CSV writer object
     writer.writerow(['neighbourhood_group', 'room_type', 'average_price'])  # write header
-    for (neighbourhood_group, room_type), average_price in avg_prices.items():
+    for (neighbourhood_group, room_type), average_price in avg_prices.items(): # iterate through the avg_prices dictionary
         writer.writerow([neighbourhood_group, room_type, average_price])  # write data rows
     csvfile.close()
 
