@@ -30,8 +30,11 @@ def load_listings(f):
     base_path = os.path.abspath(os.path.dirname(__file__))
     full_path = os.path.join(base_path, f)
 
-    # TODO: Read the CSV using csv.reader and convert it to a list a dictionaries
-    pass
+    csvfile = open(full_path, 'r')
+    reader = csv.DictReader(csvfile)
+    result = list(reader)
+    csvfile.close()
+    return result
 
 ###############################################################################
 ##### TASK 2: CALCULATION FUNCTION (single calculation)
@@ -51,7 +54,7 @@ def calculate_avg_price_by_neighbourhood_group_and_room(listings):
         dict mapping (neighbourhood_group, room_type) -> average_price (float)
         e.g. { ('Downtown', 'Entire home/apt'): 123.45, ... }
     """
-    pass
+
 
 
 
